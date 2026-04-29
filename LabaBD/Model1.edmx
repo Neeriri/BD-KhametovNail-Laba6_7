@@ -1,0 +1,493 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище Laba4Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Campaigns">
+          <Key>
+            <PropertyRef Name="id_кампании" />
+          </Key>
+          <Property Name="id_кампании" Type="int" Nullable="false" />
+          <Property Name="название" Type="nvarchar" MaxLength="100" />
+          <Property Name="id_клиента" Type="int" />
+          <Property Name="бюджет" Type="decimal" Precision="15" Scale="2" />
+          <Property Name="дата_начала" Type="date" />
+          <Property Name="дата_окончания" Type="date" />
+          <Property Name="статус" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Channels">
+          <Key>
+            <PropertyRef Name="Id_канала_размещенения" />
+          </Key>
+          <Property Name="Id_канала_размещенения" Type="int" Nullable="false" />
+          <Property Name="Название" Type="nvarchar" MaxLength="100" />
+          <Property Name="Тип" Type="nvarchar" MaxLength="50" />
+          <Property Name="Стоимость_размещения" Type="decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <EntityType Name="Clients">
+          <Key>
+            <PropertyRef Name="Id_Клиента" />
+          </Key>
+          <Property Name="Id_Клиента" Type="int" Nullable="false" />
+          <Property Name="Фио" Type="nvarchar" MaxLength="100" />
+          <Property Name="email" Type="nvarchar" MaxLength="100" />
+          <Property Name="Телефон" Type="nvarchar" MaxLength="20" />
+          <Property Name="адрес" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Employees">
+          <Key>
+            <PropertyRef Name="ID_сотрудника" />
+          </Key>
+          <Property Name="ID_сотрудника" Type="int" Nullable="false" />
+          <Property Name="ФИО" Type="nvarchar" MaxLength="100" />
+          <Property Name="Должность" Type="nvarchar" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" />
+          <Property Name="Cтавка_в_час" Type="decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <EntityType Name="Expenses">
+          <Key>
+            <PropertyRef Name="id_расхода" />
+          </Key>
+          <Property Name="id_расхода" Type="int" Nullable="false" />
+          <Property Name="id_кампании" Type="int" />
+          <Property Name="статья_расхода" Type="nvarchar" MaxLength="100" />
+          <Property Name="сумма" Type="decimal" Precision="15" Scale="2" />
+          <Property Name="дата" Type="date" />
+        </EntityType>
+        <EntityType Name="Results">
+          <Key>
+            <PropertyRef Name="id_результата" />
+          </Key>
+          <Property Name="id_результата" Type="int" Nullable="false" />
+          <Property Name="id_кампании" Type="int" />
+          <Property Name="id_канала" Type="int" />
+          <Property Name="показы" Type="int" />
+          <Property Name="клики" Type="int" />
+          <Property Name="конверсия_%" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="дата_отчёта" Type="date" />
+        </EntityType>
+        <EntityType Name="Tasks">
+          <Key>
+            <PropertyRef Name="id_задачи" />
+          </Key>
+          <Property Name="id_задачи" Type="int" Nullable="false" />
+          <Property Name="id_кампании" Type="int" />
+          <Property Name="описание" Type="nvarchar" MaxLength="200" />
+          <Property Name="id_исполнителя" Type="int" />
+          <Property Name="срок_выполнения" Type="date" />
+          <Property Name="статус" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK__Campaigns__id_кл__3B75D760">
+          <End Role="Clients" Type="Self.Clients" Multiplicity="0..1" />
+          <End Role="Campaigns" Type="Self.Campaigns" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clients">
+              <PropertyRef Name="Id_Клиента" />
+            </Principal>
+            <Dependent Role="Campaigns">
+              <PropertyRef Name="id_клиента" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Expenses__id_кам__440B1D61">
+          <End Role="Campaigns" Type="Self.Campaigns" Multiplicity="0..1" />
+          <End Role="Expenses" Type="Self.Expenses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Campaigns">
+              <PropertyRef Name="id_кампании" />
+            </Principal>
+            <Dependent Role="Expenses">
+              <PropertyRef Name="id_кампании" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Results__id_камп__4CA06362">
+          <End Role="Campaigns" Type="Self.Campaigns" Multiplicity="0..1" />
+          <End Role="Results" Type="Self.Results" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Campaigns">
+              <PropertyRef Name="id_кампании" />
+            </Principal>
+            <Dependent Role="Results">
+              <PropertyRef Name="id_кампании" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Results__id_кана__4D94879B">
+          <End Role="Channels" Type="Self.Channels" Multiplicity="0..1" />
+          <End Role="Results" Type="Self.Results" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Channels">
+              <PropertyRef Name="Id_канала_размещенения" />
+            </Principal>
+            <Dependent Role="Results">
+              <PropertyRef Name="id_канала" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tasks__id_исполн__412EB0B6">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="ID_сотрудника" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="id_исполнителя" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tasks__id_кампан__403A8C7D">
+          <End Role="Campaigns" Type="Self.Campaigns" Multiplicity="0..1" />
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Campaigns">
+              <PropertyRef Name="id_кампании" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="id_кампании" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище Laba4ModelContainer">
+          <EntitySet Name="Campaigns" EntityType="Self.Campaigns" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Channels" EntityType="Self.Channels" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Clients" EntityType="Self.Clients" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employees" EntityType="Self.Employees" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Expenses" EntityType="Self.Expenses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Results" EntityType="Self.Results" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tasks" EntityType="Self.Tasks" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Campaigns__id_кл__3B75D760" Association="Self.FK__Campaigns__id_кл__3B75D760">
+            <End Role="Clients" EntitySet="Clients" />
+            <End Role="Campaigns" EntitySet="Campaigns" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Expenses__id_кам__440B1D61" Association="Self.FK__Expenses__id_кам__440B1D61">
+            <End Role="Campaigns" EntitySet="Campaigns" />
+            <End Role="Expenses" EntitySet="Expenses" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Results__id_камп__4CA06362" Association="Self.FK__Results__id_камп__4CA06362">
+            <End Role="Campaigns" EntitySet="Campaigns" />
+            <End Role="Results" EntitySet="Results" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Results__id_кана__4D94879B" Association="Self.FK__Results__id_кана__4D94879B">
+            <End Role="Channels" EntitySet="Channels" />
+            <End Role="Results" EntitySet="Results" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tasks__id_исполн__412EB0B6" Association="Self.FK__Tasks__id_исполн__412EB0B6">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tasks__id_кампан__403A8C7D" Association="Self.FK__Tasks__id_кампан__403A8C7D">
+            <End Role="Campaigns" EntitySet="Campaigns" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Laba4Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Campaigns">
+          <Key>
+            <PropertyRef Name="id_кампании" />
+          </Key>
+          <Property Name="id_кампании" Type="Int32" Nullable="false" />
+          <Property Name="название" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="id_клиента" Type="Int32" />
+          <Property Name="бюджет" Type="Decimal" Precision="15" Scale="2" />
+          <Property Name="дата_начала" Type="DateTime" Precision="0" />
+          <Property Name="дата_окончания" Type="DateTime" Precision="0" />
+          <Property Name="статус" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Clients" Relationship="Self.FK__Campaigns__id_кл__3B75D760" FromRole="Campaigns" ToRole="Clients" />
+          <NavigationProperty Name="Expenses" Relationship="Self.FK__Expenses__id_кам__440B1D61" FromRole="Campaigns" ToRole="Expenses" />
+          <NavigationProperty Name="Results" Relationship="Self.FK__Results__id_камп__4CA06362" FromRole="Campaigns" ToRole="Results" />
+          <NavigationProperty Name="Tasks" Relationship="Self.FK__Tasks__id_кампан__403A8C7D" FromRole="Campaigns" ToRole="Tasks" />
+        </EntityType>
+        <EntityType Name="Channels">
+          <Key>
+            <PropertyRef Name="Id_канала_размещенения" />
+          </Key>
+          <Property Name="Id_канала_размещенения" Type="Int32" Nullable="false" />
+          <Property Name="Название" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Тип" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Стоимость_размещения" Type="Decimal" Precision="10" Scale="2" />
+          <NavigationProperty Name="Results" Relationship="Self.FK__Results__id_кана__4D94879B" FromRole="Channels" ToRole="Results" />
+        </EntityType>
+        <EntityType Name="Clients">
+          <Key>
+            <PropertyRef Name="Id_Клиента" />
+          </Key>
+          <Property Name="Id_Клиента" Type="Int32" Nullable="false" />
+          <Property Name="Фио" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Телефон" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="адрес" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Campaigns" Relationship="Self.FK__Campaigns__id_кл__3B75D760" FromRole="Clients" ToRole="Campaigns" />
+        </EntityType>
+        <EntityType Name="Employees">
+          <Key>
+            <PropertyRef Name="ID_сотрудника" />
+          </Key>
+          <Property Name="ID_сотрудника" Type="Int32" Nullable="false" />
+          <Property Name="ФИО" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Должность" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Cтавка_в_час" Type="Decimal" Precision="10" Scale="2" />
+          <NavigationProperty Name="Tasks" Relationship="Self.FK__Tasks__id_исполн__412EB0B6" FromRole="Employees" ToRole="Tasks" />
+        </EntityType>
+        <EntityType Name="Expenses">
+          <Key>
+            <PropertyRef Name="id_расхода" />
+          </Key>
+          <Property Name="id_расхода" Type="Int32" Nullable="false" />
+          <Property Name="id_кампании" Type="Int32" />
+          <Property Name="статья_расхода" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="сумма" Type="Decimal" Precision="15" Scale="2" />
+          <Property Name="дата" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Campaigns" Relationship="Self.FK__Expenses__id_кам__440B1D61" FromRole="Expenses" ToRole="Campaigns" />
+        </EntityType>
+        <EntityType Name="Results">
+          <Key>
+            <PropertyRef Name="id_результата" />
+          </Key>
+          <Property Name="id_результата" Type="Int32" Nullable="false" />
+          <Property Name="id_кампании" Type="Int32" />
+          <Property Name="id_канала" Type="Int32" />
+          <Property Name="показы" Type="Int32" />
+          <Property Name="клики" Type="Int32" />
+          <Property Name="конверсия__" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="дата_отчёта" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Campaigns" Relationship="Self.FK__Results__id_камп__4CA06362" FromRole="Results" ToRole="Campaigns" />
+          <NavigationProperty Name="Channels" Relationship="Self.FK__Results__id_кана__4D94879B" FromRole="Results" ToRole="Channels" />
+        </EntityType>
+        <EntityType Name="Tasks">
+          <Key>
+            <PropertyRef Name="id_задачи" />
+          </Key>
+          <Property Name="id_задачи" Type="Int32" Nullable="false" />
+          <Property Name="id_кампании" Type="Int32" />
+          <Property Name="описание" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="id_исполнителя" Type="Int32" />
+          <Property Name="срок_выполнения" Type="DateTime" Precision="0" />
+          <Property Name="статус" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Campaigns" Relationship="Self.FK__Tasks__id_кампан__403A8C7D" FromRole="Tasks" ToRole="Campaigns" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK__Tasks__id_исполн__412EB0B6" FromRole="Tasks" ToRole="Employees" />
+        </EntityType>
+        <Association Name="FK__Campaigns__id_кл__3B75D760">
+          <End Role="Clients" Type="Self.Clients" Multiplicity="0..1" />
+          <End Role="Campaigns" Type="Self.Campaigns" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clients">
+              <PropertyRef Name="Id_Клиента" />
+            </Principal>
+            <Dependent Role="Campaigns">
+              <PropertyRef Name="id_клиента" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Expenses__id_кам__440B1D61">
+          <End Role="Campaigns" Type="Self.Campaigns" Multiplicity="0..1" />
+          <End Role="Expenses" Type="Self.Expenses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Campaigns">
+              <PropertyRef Name="id_кампании" />
+            </Principal>
+            <Dependent Role="Expenses">
+              <PropertyRef Name="id_кампании" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Results__id_камп__4CA06362">
+          <End Role="Campaigns" Type="Self.Campaigns" Multiplicity="0..1" />
+          <End Role="Results" Type="Self.Results" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Campaigns">
+              <PropertyRef Name="id_кампании" />
+            </Principal>
+            <Dependent Role="Results">
+              <PropertyRef Name="id_кампании" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tasks__id_кампан__403A8C7D">
+          <End Role="Campaigns" Type="Self.Campaigns" Multiplicity="0..1" />
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Campaigns">
+              <PropertyRef Name="id_кампании" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="id_кампании" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Results__id_кана__4D94879B">
+          <End Role="Channels" Type="Self.Channels" Multiplicity="0..1" />
+          <End Role="Results" Type="Self.Results" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Channels">
+              <PropertyRef Name="Id_канала_размещенения" />
+            </Principal>
+            <Dependent Role="Results">
+              <PropertyRef Name="id_канала" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tasks__id_исполн__412EB0B6">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="ID_сотрудника" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="id_исполнителя" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Laba4Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Campaigns" EntityType="Self.Campaigns" />
+          <EntitySet Name="Channels" EntityType="Self.Channels" />
+          <EntitySet Name="Clients" EntityType="Self.Clients" />
+          <EntitySet Name="Employees" EntityType="Self.Employees" />
+          <EntitySet Name="Expenses" EntityType="Self.Expenses" />
+          <EntitySet Name="Results" EntityType="Self.Results" />
+          <EntitySet Name="Tasks" EntityType="Self.Tasks" />
+          <AssociationSet Name="FK__Campaigns__id_кл__3B75D760" Association="Self.FK__Campaigns__id_кл__3B75D760">
+            <End Role="Clients" EntitySet="Clients" />
+            <End Role="Campaigns" EntitySet="Campaigns" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Expenses__id_кам__440B1D61" Association="Self.FK__Expenses__id_кам__440B1D61">
+            <End Role="Campaigns" EntitySet="Campaigns" />
+            <End Role="Expenses" EntitySet="Expenses" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Results__id_камп__4CA06362" Association="Self.FK__Results__id_камп__4CA06362">
+            <End Role="Campaigns" EntitySet="Campaigns" />
+            <End Role="Results" EntitySet="Results" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tasks__id_кампан__403A8C7D" Association="Self.FK__Tasks__id_кампан__403A8C7D">
+            <End Role="Campaigns" EntitySet="Campaigns" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Results__id_кана__4D94879B" Association="Self.FK__Results__id_кана__4D94879B">
+            <End Role="Channels" EntitySet="Channels" />
+            <End Role="Results" EntitySet="Results" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tasks__id_исполн__412EB0B6" Association="Self.FK__Tasks__id_исполн__412EB0B6">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище Laba4ModelContainer" CdmEntityContainer="Laba4Entities">
+          <EntitySetMapping Name="Campaigns">
+            <EntityTypeMapping TypeName="Laba4Model.Campaigns">
+              <MappingFragment StoreEntitySet="Campaigns">
+                <ScalarProperty Name="id_кампании" ColumnName="id_кампании" />
+                <ScalarProperty Name="название" ColumnName="название" />
+                <ScalarProperty Name="id_клиента" ColumnName="id_клиента" />
+                <ScalarProperty Name="бюджет" ColumnName="бюджет" />
+                <ScalarProperty Name="дата_начала" ColumnName="дата_начала" />
+                <ScalarProperty Name="дата_окончания" ColumnName="дата_окончания" />
+                <ScalarProperty Name="статус" ColumnName="статус" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Channels">
+            <EntityTypeMapping TypeName="Laba4Model.Channels">
+              <MappingFragment StoreEntitySet="Channels">
+                <ScalarProperty Name="Id_канала_размещенения" ColumnName="Id_канала_размещенения" />
+                <ScalarProperty Name="Название" ColumnName="Название" />
+                <ScalarProperty Name="Тип" ColumnName="Тип" />
+                <ScalarProperty Name="Стоимость_размещения" ColumnName="Стоимость_размещения" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Clients">
+            <EntityTypeMapping TypeName="Laba4Model.Clients">
+              <MappingFragment StoreEntitySet="Clients">
+                <ScalarProperty Name="Id_Клиента" ColumnName="Id_Клиента" />
+                <ScalarProperty Name="Фио" ColumnName="Фио" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="Телефон" ColumnName="Телефон" />
+                <ScalarProperty Name="адрес" ColumnName="адрес" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="Laba4Model.Employees">
+              <MappingFragment StoreEntitySet="Employees">
+                <ScalarProperty Name="ID_сотрудника" ColumnName="ID_сотрудника" />
+                <ScalarProperty Name="ФИО" ColumnName="ФИО" />
+                <ScalarProperty Name="Должность" ColumnName="Должность" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Cтавка_в_час" ColumnName="Cтавка_в_час" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Expenses">
+            <EntityTypeMapping TypeName="Laba4Model.Expenses">
+              <MappingFragment StoreEntitySet="Expenses">
+                <ScalarProperty Name="id_расхода" ColumnName="id_расхода" />
+                <ScalarProperty Name="id_кампании" ColumnName="id_кампании" />
+                <ScalarProperty Name="статья_расхода" ColumnName="статья_расхода" />
+                <ScalarProperty Name="сумма" ColumnName="сумма" />
+                <ScalarProperty Name="дата" ColumnName="дата" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Results">
+            <EntityTypeMapping TypeName="Laba4Model.Results">
+              <MappingFragment StoreEntitySet="Results">
+                <ScalarProperty Name="id_результата" ColumnName="id_результата" />
+                <ScalarProperty Name="id_кампании" ColumnName="id_кампании" />
+                <ScalarProperty Name="id_канала" ColumnName="id_канала" />
+                <ScalarProperty Name="показы" ColumnName="показы" />
+                <ScalarProperty Name="клики" ColumnName="клики" />
+                <ScalarProperty Name="конверсия__" ColumnName="конверсия_%" />
+                <ScalarProperty Name="дата_отчёта" ColumnName="дата_отчёта" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tasks">
+            <EntityTypeMapping TypeName="Laba4Model.Tasks">
+              <MappingFragment StoreEntitySet="Tasks">
+                <ScalarProperty Name="id_задачи" ColumnName="id_задачи" />
+                <ScalarProperty Name="id_кампании" ColumnName="id_кампании" />
+                <ScalarProperty Name="описание" ColumnName="описание" />
+                <ScalarProperty Name="id_исполнителя" ColumnName="id_исполнителя" />
+                <ScalarProperty Name="срок_выполнения" ColumnName="срок_выполнения" />
+                <ScalarProperty Name="статус" ColumnName="статус" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

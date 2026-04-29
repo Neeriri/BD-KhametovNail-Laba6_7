@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b015f2bf9d5b42d2891e8c8a3de4ca7d" Name="Diagram1">
+        <EntityTypeShape EntityType="Laba4Model.Campaigns" Width="1.5" PointX="3" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Laba4Model.Channels" Width="1.5" PointX="6" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="Laba4Model.Clients" Width="1.5" PointX="0.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Laba4Model.Employees" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="Laba4Model.Expenses" Width="1.5" PointX="5.25" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Laba4Model.Results" Width="1.5" PointX="8.25" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Laba4Model.Tasks" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="Laba4Model.FK__Campaigns__id_кл__3B75D760" ManuallyRouted="false" />
+        <AssociationConnector Association="Laba4Model.FK__Expenses__id_кам__440B1D61" ManuallyRouted="false" />
+        <AssociationConnector Association="Laba4Model.FK__Results__id_камп__4CA06362" ManuallyRouted="false" />
+        <AssociationConnector Association="Laba4Model.FK__Tasks__id_кампан__403A8C7D" ManuallyRouted="false" />
+        <AssociationConnector Association="Laba4Model.FK__Results__id_кана__4D94879B" ManuallyRouted="false" />
+        <AssociationConnector Association="Laba4Model.FK__Tasks__id_исполн__412EB0B6" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
