@@ -1,0 +1,65 @@
+CREATE TABLE Clients (
+    ClientID INT PRIMARY KEY IDENTITY(1,1),
+    FullName NVARCHAR(255) NOT NULL,
+    Email NVARCHAR(255),
+    Phone NVARCHAR(20),
+    Address NVARCHAR(500)
+);
+CREATE TABLE Employees (
+    EmployeeID INT PRIMARY KEY IDENTITY(1,1),
+    FullName NVARCHAR(255) NOT NULL,
+    Position NVARCHAR(100),
+    Email NVARCHAR(255),
+    HourlyRate DECIMAL(10,2)
+);
+CREATE TABLE Campaigns (
+    CampaignID INT PRIMARY KEY IDENTITY(1,1),
+    CampaignName NVARCHAR(255) NOT NULL,
+    ClientID INT NOT NULL,
+    Budget DECIMAL(15,2),
+    StartDate DATE,
+    EndDate DATE,
+    Status NVARCHAR(50),
+    CONSTRAINT FK_Campaigns_Clients FOREIGN KEY (ClientID) 
+        REFERENCES Clients(ClientID)
+);
+CREATE TABLE Channels (
+    ChannelID INT PRIMARY KEY IDENTITY(1,1),
+    ChannelName NVARCHAR(255) NOT NULL,
+    ChannelType NVARCHAR(100),
+    PlacementCost DECIMAL(10,2)
+);
+CREATE TABLE Tasks (
+    TaskID INT PRIMARY KEY IDENTITY(1,1),
+    CampaignID INT NOT NULL,
+    Description NVARCHAR(500),
+    ExecutorID INT NOT NULL,
+    DueDate DATE,
+    Status NVARCHAR(50),
+    CONSTRAINT FK_Tasks_Campaigns FOREIGN KEY (CampaignID) 
+        REFERENCES Campaigns(CampaignID),
+    CONSTRAINT FK_Tasks_Employees FOREIGN KEY (ExecutorID) 
+        REFERENCES Employees(EmployeeID)
+);
+CREATE TABLE Expenses (
+    ExpenseID INT PRIMARY KEY IDENTITY(1,1),
+    CampaignID INT NOT NULL,
+    ExpenseItem NVARCHAR(255),
+    Amount DECIMAL(15,2),
+    ExpenseDate DATE,
+    CONSTRAINT FK_Expenses_Campaigns FOREIGN KEY (CampaignID) 
+        REFERENCES Campaigns(CampaignID)
+);
+CREATE TABLE Results (
+    ResultID INT PRIMARY KEY IDENTITY(1,1),
+    CampaignID INT NOT NULL,
+    ChannelID INT NOT NULL,
+    Impressions INT,
+    Clicks INT,
+    ConversionRate DECIMAL(5,2),
+    ReportDate DATE,
+    CONSTRAINT FK_Results_Campaigns FOREIGN KEY (CampaignID) 
+        REFERENCES Campaigns(CampaignID),
+    CONSTRAINT FK_Results_Channels FOREIGN KEY (ChannelID) 
+        REFERENCES Channels(ChannelID)
+);
