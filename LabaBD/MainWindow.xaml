@@ -5,8 +5,207 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LabaBD"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="Управление базой данных маркетингового агентства" Height="600" Width="1000">
+    <Grid Margin="10">
+        <TabControl x:Name="MainTabControl">
+            <TabItem Header="Клиенты">
+                <Grid x:Name="ClientsGrid" Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    
+                    <!-- Кнопки управления -->
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
+                        <Button x:Name="BtnAddClient" Content="Добавить" Width="80" Margin="5" Click="BtnAddClient_Click"/>
+                        <Button x:Name="BtnEditClient" Content="Изменить" Width="80" Margin="5" Click="BtnEditClient_Click"/>
+                        <Button x:Name="BtnDeleteClient" Content="Удалить" Width="80" Margin="5" Click="BtnDeleteClient_Click"/>
+                        <Button x:Name="BtnRefreshClient" Content="Обновить" Width="80" Margin="5" Click="BtnRefreshClient_Click"/>
+                    </StackPanel>
+                    
+                    <!-- Таблица данных -->
+                    <DataGrid x:Name="DgClients" Grid.Row="1" AutoGenerateColumns="False" CanUserAddRows="False" SelectionMode="Single">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding Id_Клиента}" Width="50"/>
+                            <DataGridTextColumn Header="ФИО" Binding="{Binding Фио}" Width="150"/>
+                            <DataGridTextColumn Header="Email" Binding="{Binding email}" Width="150"/>
+                            <DataGridTextColumn Header="Телефон" Binding="{Binding Телефон}" Width="120"/>
+                            <DataGridTextColumn Header="Адрес" Binding="{Binding адрес}" Width="200"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    
+                    <!-- Форма редактирования -->
+                    <GroupBox Grid.Row="2" Header="Данные клиента" Margin="0,10,0,0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="ФИО:" Margin="5"/>
+                            <TextBox Grid.Row="0" Grid.Column="1" x:Name="TxtClientFio" Margin="5"/>
+                            
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Email:" Margin="5"/>
+                            <TextBox Grid.Row="1" Grid.Column="1" x:Name="TxtClientEmail" Margin="5"/>
+                            
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Телефон:" Margin="5"/>
+                            <TextBox Grid.Row="2" Grid.Column="1" x:Name="TxtClientPhone" Margin="5"/>
+                            
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Адрес:" Margin="5"/>
+                            <TextBox Grid.Row="3" Grid.Column="1" x:Name="TxtClientAddress" Margin="5"/>
+                            
+                            <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+                                <Button x:Name="BtnSaveClient" Content="Сохранить" Width="80" Click="BtnSaveClient_Click"/>
+                                <Button x:Name="BtnCancelClient" Content="Отмена" Width="80" Margin="5,0,0,0" Click="BtnCancelClient_Click"/>
+                            </StackPanel>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            
+            <TabItem Header="Кампании">
+                <Grid x:Name="CampaignsGrid" Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    
+                    <!-- Кнопки управления -->
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
+                        <Button x:Name="BtnAddCampaign" Content="Добавить" Width="80" Margin="5" Click="BtnAddCampaign_Click"/>
+                        <Button x:Name="BtnEditCampaign" Content="Изменить" Width="80" Margin="5" Click="BtnEditCampaign_Click"/>
+                        <Button x:Name="BtnDeleteCampaign" Content="Удалить" Width="80" Margin="5" Click="BtnDeleteCampaign_Click"/>
+                        <Button x:Name="BtnRefreshCampaign" Content="Обновить" Width="80" Margin="5" Click="BtnRefreshCampaign_Click"/>
+                    </StackPanel>
+                    
+                    <!-- Таблица данных -->
+                    <DataGrid x:Name="DgCampaigns" Grid.Row="1" AutoGenerateColumns="False" CanUserAddRows="False" SelectionMode="Single">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding id_кампании}" Width="50"/>
+                            <DataGridTextColumn Header="Название" Binding="{Binding название}" Width="150"/>
+                            <DataGridTextColumn Header="ID Клиента" Binding="{Binding id_клиента}" Width="80"/>
+                            <DataGridTextColumn Header="Бюджет" Binding="{Binding бюджет}" Width="80"/>
+                            <DataGridTextColumn Header="Дата начала" Binding="{Binding дата_начала, StringFormat={}{0:dd.MM.yyyy}}" Width="100"/>
+                            <DataGridTextColumn Header="Дата окончания" Binding="{Binding дата_окончания, StringFormat={}{0:dd.MM.yyyy}}" Width="100"/>
+                            <DataGridTextColumn Header="Статус" Binding="{Binding статус}" Width="100"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    
+                    <!-- Форма редактирования -->
+                    <GroupBox Grid.Row="2" Header="Данные кампании" Margin="0,10,0,0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Название:" Margin="5"/>
+                            <TextBox Grid.Row="0" Grid.Column="1" x:Name="TxtCampaignName" Margin="5"/>
+                            
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="ID Клиента:" Margin="5"/>
+                            <TextBox Grid.Row="1" Grid.Column="1" x:Name="TxtCampaignClientId" Margin="5"/>
+                            
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Бюджет:" Margin="5"/>
+                            <TextBox Grid.Row="2" Grid.Column="1" x:Name="TxtCampaignBudget" Margin="5"/>
+                            
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Дата начала:" Margin="5"/>
+                            <DatePicker Grid.Row="3" Grid.Column="1" x:Name="DpCampaignStart" Margin="5"/>
+                            
+                            <TextBlock Grid.Row="4" Grid.Column="0" Text="Дата окончания:" Margin="5"/>
+                            <DatePicker Grid.Row="4" Grid.Column="1" x:Name="DpCampaignEnd" Margin="5"/>
+                            
+                            <TextBlock Grid.Row="5" Grid.Column="0" Text="Статус:" Margin="5"/>
+                            <TextBox Grid.Row="5" Grid.Column="1" x:Name="TxtCampaignStatus" Margin="5"/>
+                            
+                            <StackPanel Grid.Row="6" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+                                <Button x:Name="BtnSaveCampaign" Content="Сохранить" Width="80" Click="BtnSaveCampaign_Click"/>
+                                <Button x:Name="BtnCancelCampaign" Content="Отмена" Width="80" Margin="5,0,0,0" Click="BtnCancelCampaign_Click"/>
+                            </StackPanel>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            
+            <TabItem Header="Сотрудники">
+                <Grid x:Name="EmployeesGrid" Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    
+                    <!-- Кнопки управления -->
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
+                        <Button x:Name="BtnAddEmployee" Content="Добавить" Width="80" Margin="5" Click="BtnAddEmployee_Click"/>
+                        <Button x:Name="BtnEditEmployee" Content="Изменить" Width="80" Margin="5" Click="BtnEditEmployee_Click"/>
+                        <Button x:Name="BtnDeleteEmployee" Content="Удалить" Width="80" Margin="5" Click="BtnDeleteEmployee_Click"/>
+                        <Button x:Name="BtnRefreshEmployee" Content="Обновить" Width="80" Margin="5" Click="BtnRefreshEmployee_Click"/>
+                    </StackPanel>
+                    
+                    <!-- Таблица данных -->
+                    <DataGrid x:Name="DgEmployees" Grid.Row="1" AutoGenerateColumns="False" CanUserAddRows="False" SelectionMode="Single">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding ID_сотрудника}" Width="50"/>
+                            <DataGridTextColumn Header="ФИО" Binding="{Binding ФИО}" Width="150"/>
+                            <DataGridTextColumn Header="Должность" Binding="{Binding Должность}" Width="120"/>
+                            <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="150"/>
+                            <DataGridTextColumn Header="Ставка в час" Binding="{Binding Cтавка_в_час}" Width="100"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    
+                    <!-- Форма редактирования -->
+                    <GroupBox Grid.Row="2" Header="Данные сотрудника" Margin="0,10,0,0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="ФИО:" Margin="5"/>
+                            <TextBox Grid.Row="0" Grid.Column="1" x:Name="TxtEmployeeFio" Margin="5"/>
+                            
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Должность:" Margin="5"/>
+                            <TextBox Grid.Row="1" Grid.Column="1" x:Name="TxtEmployeePosition" Margin="5"/>
+                            
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Email:" Margin="5"/>
+                            <TextBox Grid.Row="2" Grid.Column="1" x:Name="TxtEmployeeEmail" Margin="5"/>
+                            
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Ставка в час:" Margin="5"/>
+                            <TextBox Grid.Row="3" Grid.Column="1" x:Name="TxtEmployeeRate" Margin="5"/>
+                            
+                            <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+                                <Button x:Name="BtnSaveEmployee" Content="Сохранить" Width="80" Click="BtnSaveEmployee_Click"/>
+                                <Button x:Name="BtnCancelEmployee" Content="Отмена" Width="80" Margin="5,0,0,0" Click="BtnCancelEmployee_Click"/>
+                            </StackPanel>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>
