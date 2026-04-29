@@ -15,9 +15,6 @@ using System.Windows.Shapes;
 
 namespace LabaBD
 {
-    /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         private Laba4Entities _context;
@@ -114,7 +111,6 @@ namespace LabaBD
 
                 if (_currentClient == null)
                 {
-                    // Создание нового клиента
                     _currentClient = new Clients
                     {
                         Фио = TxtClientFio.Text,
@@ -126,7 +122,6 @@ namespace LabaBD
                 }
                 else
                 {
-                    // Обновление существующего клиента
                     _currentClient.Фио = TxtClientFio.Text;
                     _currentClient.email = TxtClientEmail.Text;
                     _currentClient.Телефон = TxtClientPhone.Text;
@@ -242,7 +237,6 @@ namespace LabaBD
 
                 if (_currentCampaign == null)
                 {
-                    // Создание новой кампании
                     _currentCampaign = new Campaigns
                     {
                         название = TxtCampaignName.Text,
@@ -256,7 +250,6 @@ namespace LabaBD
                 }
                 else
                 {
-                    // Обновление существующей кампании
                     _currentCampaign.название = TxtCampaignName.Text;
                     _currentCampaign.id_клиента = string.IsNullOrEmpty(TxtCampaignClientId.Text) ? (int?)null : int.Parse(TxtCampaignClientId.Text);
                     _currentCampaign.бюджет = string.IsNullOrEmpty(TxtCampaignBudget.Text) ? (decimal?)null : decimal.Parse(TxtCampaignBudget.Text);
