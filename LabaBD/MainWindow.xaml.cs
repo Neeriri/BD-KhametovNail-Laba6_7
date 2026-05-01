@@ -47,8 +47,8 @@ namespace LabaBD
 
         private void BtnAddClient_Click(object sender, RoutedEventArgs e)
         {
-            ClearClientForm();
-            _currentClient = null;
+            ClearClientForm();      
+            _currentClient = null;  
         }
 
         private void BtnEditClient_Click(object sender, RoutedEventArgs e)
@@ -60,6 +60,7 @@ namespace LabaBD
             }
 
             _currentClient = (Clients)DgClients.SelectedItem;
+            TxtClientId.IsEnabled = false;
             TxtClientFio.Text = _currentClient.Фио;
             TxtClientEmail.Text = _currentClient.email;
             TxtClientPhone.Text = _currentClient.Телефон;
@@ -109,10 +110,18 @@ namespace LabaBD
                     return;
                 }
 
-                if (_currentClient == null)
+                if (_currentClient == null) 
                 {
+
+                    if (!int.TryParse(TxtClientId.Text, out int newId))
+                    {
+                        MessageBox.Show("Введите корректный числовой ID", "Ошибка валидации", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
+
                     _currentClient = new Clients
                     {
+                        Id_Клиента = newId,             
                         Фио = TxtClientFio.Text,
                         email = TxtClientEmail.Text,
                         Телефон = TxtClientPhone.Text,
@@ -135,7 +144,8 @@ namespace LabaBD
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка сохранения клиента: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                var inner = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
+                MessageBox.Show($"Ошибка сохранения клиента: {inner}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -148,6 +158,7 @@ namespace LabaBD
         {
             TxtClientFio.Clear();
             TxtClientEmail.Clear();
+            TxtClientId.IsEnabled = true;
             TxtClientPhone.Clear();
             TxtClientAddress.Clear();
             _currentClient = null;
@@ -188,6 +199,7 @@ namespace LabaBD
             TxtCampaignClientId.Text = _currentCampaign.id_клиента?.ToString();
             TxtCampaignBudget.Text = _currentCampaign.бюджет?.ToString();
             DpCampaignStart.SelectedDate = _currentCampaign.дата_начала;
+            TxtCampaignId.IsEnabled = false;
             DpCampaignEnd.SelectedDate = _currentCampaign.дата_окончания;
             TxtCampaignStatus.Text = _currentCampaign.статус;
         }
@@ -237,8 +249,15 @@ namespace LabaBD
 
                 if (_currentCampaign == null)
                 {
+                    if (!int.TryParse(TxtCampaignId.Text, out int newId))
+                    {
+                        MessageBox.Show("Введите корректный числовой ID", "Ошибка валидации", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
+
                     _currentCampaign = new Campaigns
                     {
+                        id_кампании = newId,   
                         название = TxtCampaignName.Text,
                         id_клиента = string.IsNullOrEmpty(TxtCampaignClientId.Text) ? (int?)null : int.Parse(TxtCampaignClientId.Text),
                         бюджет = string.IsNullOrEmpty(TxtCampaignBudget.Text) ? (decimal?)null : decimal.Parse(TxtCampaignBudget.Text),
@@ -248,7 +267,7 @@ namespace LabaBD
                     };
                     _context.Campaigns.Add(_currentCampaign);
                 }
-                else
+                else 
                 {
                     _currentCampaign.название = TxtCampaignName.Text;
                     _currentCampaign.id_клиента = string.IsNullOrEmpty(TxtCampaignClientId.Text) ? (int?)null : int.Parse(TxtCampaignClientId.Text);
@@ -265,7 +284,8 @@ namespace LabaBD
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка сохранения кампании: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                var inner = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
+                MessageBox.Show($"Ошибка сохранения кампании: {inner}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -281,6 +301,7 @@ namespace LabaBD
             TxtCampaignBudget.Clear();
             DpCampaignStart.SelectedDate = null;
             DpCampaignEnd.SelectedDate = null;
+            TxtCampaignId.IsEnabled = true;
             TxtCampaignStatus.Clear();
             _currentCampaign = null;
         }
@@ -319,6 +340,7 @@ namespace LabaBD
             TxtEmployeeFio.Text = _currentEmployee.ФИО;
             TxtEmployeePosition.Text = _currentEmployee.Должность;
             TxtEmployeeEmail.Text = _currentEmployee.Email;
+            TxtEmployeeId.IsEnabled = false;
             TxtEmployeeRate.Text = _currentEmployee.Cтавка_в_час?.ToString();
         }
 
@@ -365,11 +387,17 @@ namespace LabaBD
                     return;
                 }
 
-                if (_currentEmployee == null)
+                if (_currentEmployee == null) 
                 {
-                    // Создание нового сотрудника
+                    if (!int.TryParse(TxtEmployeeId.Text, out int newId))
+                    {
+                        MessageBox.Show("Введите корректный числовой ID", "Ошибка валидации", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
+
                     _currentEmployee = new Employees
                     {
+                        ID_сотрудника = newId,  
                         ФИО = TxtEmployeeFio.Text,
                         Должность = TxtEmployeePosition.Text,
                         Email = TxtEmployeeEmail.Text,
@@ -377,9 +405,9 @@ namespace LabaBD
                     };
                     _context.Employees.Add(_currentEmployee);
                 }
-                else
+                else 
                 {
-                    // Обновление существующего сотрудника
+
                     _currentEmployee.ФИО = TxtEmployeeFio.Text;
                     _currentEmployee.Должность = TxtEmployeePosition.Text;
                     _currentEmployee.Email = TxtEmployeeEmail.Text;
@@ -393,7 +421,8 @@ namespace LabaBD
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка сохранения сотрудника: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                var inner = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
+                MessageBox.Show($"Ошибка сохранения сотрудника: {inner}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -405,6 +434,7 @@ namespace LabaBD
         private void ClearEmployeeForm()
         {
             TxtEmployeeFio.Clear();
+            TxtEmployeeId.IsEnabled = true;
             TxtEmployeePosition.Clear();
             TxtEmployeeEmail.Clear();
             TxtEmployeeRate.Clear();
